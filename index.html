@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notes App</title>
     <link rel="icon" href="/src/public/favicon.png" sizes="512x512" />
+    <link rel="stylesheet" href="/src/styles/style.css" />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <app-bar></app-bar>
+    </header>
+
+    <main>
+      <div class="container">
+        <section-with-title id="note" class="note" title="Your Notes">
+          <div id="noteListContainer" class="note-list-container">
+            <note-list></note-list>
+          </div>
+        </section-with-title>
+      </div>
+    </main>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
 </html>
