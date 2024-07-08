@@ -1,3 +1,5 @@
+import Utils from '../utils.js';
+
 class NoteItem extends HTMLElement {
   _shadowRoot = null;
   _style = null;
@@ -88,6 +90,8 @@ class NoteItem extends HTMLElement {
     this._emptyContent();
     this._updateStyle();
 
+    const formattedDate = Utils.formatDate(this._note.createdAt);
+
     this._shadowRoot.appendChild(this._style);
     this._shadowRoot.innerHTML += `
         <div class="note">
@@ -96,7 +100,7 @@ class NoteItem extends HTMLElement {
             <p class="note__body">${this._note.body}</p>
           </div>
           <div class="note__footer">
-            <p class="note__createdAt">${this._note.createdAt}</p>
+            <p class="note__createdAt">${formattedDate}</p>
             <div class="note__actions">
               <svg title="Edit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><title>Edit</title><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
               <svg title="Delete" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><title>Delete</title><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
