@@ -37,6 +37,27 @@ const home = () => {
   };
 
   showNotes("");
+
+  // Script moved from index.html
+  const notesForm = document.querySelector('#notesForm');
+
+  notesForm.addEventListener('cancel', () => {
+    Utils.hideElement(notesForm);
+  });
+
+  notesForm.addEventListener('save', (event) => {
+    const { title, description } = event.detail;
+    // TODO: Save the note to the database
+    Utils.hideElement(notesForm);
+  });
+
+  const showFormButton = document.createElement('button');
+  showFormButton.textContent = 'Add Note';
+  showFormButton.className = 'add-note-button';
+  showFormButton.addEventListener('click', () => {
+    Utils.showElement(notesForm);
+  });
+  document.body.appendChild(showFormButton);
 };
 
 export default home;
