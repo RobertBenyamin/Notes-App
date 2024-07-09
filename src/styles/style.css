@@ -106,4 +106,26 @@ main {
   font-weight: lighter;
   color: rgba(0, 0, 0, 0.5);
 }
+
+/* Add Note Button */
+.add-note-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fffad3;
+  color: #82590b; 
+  font-weight: 600; 
+  font-size: 1.25rem;
+  padding: 8px 16px; 
+  border-radius: 8px; 
+  display: inline-block; 
+  border: 2px solid #82590b; 
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.add-note-button:hover {
+  background: #ffe4b0;
+}
 /* End of Main */
