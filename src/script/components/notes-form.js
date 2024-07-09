@@ -8,6 +8,7 @@ class NotesForm extends HTMLElement {
     this._style = document.createElement("style");
 
     this.render();
+    this.addEventListeners();
   }
 
   _updateStyle() {
@@ -100,17 +101,28 @@ class NotesForm extends HTMLElement {
         </div>
       `;
 
-    this.shadowRoot.querySelector(".cancel").addEventListener("click", () => {
-      this.dispatchEvent(new CustomEvent("cancel"));
-    });
+    this.shadowRoot
+      .querySelector("#notesForm")
+      .addEventListener("reset", () => {
+        this.dispatchEvent(new Event("cancel"));
+      });
+    this.shadowRoot
+      .querySelector("#notesForm")
+      .addEventListener("submit", (event) => {
+        event.preventDefault();
 
-    this.shadowRoot.querySelector(".save").addEventListener("click", () => {
-      const title = this.shadowRoot.querySelector("#title").value;
-      const description = this.shadowRoot.querySelector("#description").value;
-      this.dispatchEvent(
-        new CustomEvent("save", { detail: { title, description } })
-      );
-    });
+        const form = this._shadowRoot.querySelector("#notesForm");
+
+        const title = form.title.value.trim();
+        const description = form.description.value.trim();
+
+        if (title && description) {
+          this.dispatchEvent(
+            new CustomEvent("save", { detail: { title, description } })
+          );
+          form.reset();
+        }
+      });
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -118,6 +130,33 @@ class NotesForm extends HTMLElement {
       this.shadowRoot.querySelector("#form-title").textContent = newValue;
     }
     this.render();
+  }
+
+  addEventListeners() {
+    const form = this._shadowRoot.querySelector("#notesForm");
+
+    form.addEventListener("reset", () => {
+      this.dispatchEvent(new Event("cancel"));
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const title = form.title.value.trim();
+      const description = form.description.value.trim();
+
+      if (title && description) {
+        const note = {
+          id: Date.now(),
+          title,
+          description,
+          createdAt: new Date().toISOString(),
+          archived: false,
+        };
+
+        this.dispatchEvent(new Event("save", { detail: note }));
+      }
+    });
   }
 }
 
