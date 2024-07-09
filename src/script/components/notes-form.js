@@ -131,33 +131,6 @@ class NotesForm extends HTMLElement {
     }
     this.render();
   }
-
-  addEventListeners() {
-    const form = this._shadowRoot.querySelector("#notesForm");
-
-    form.addEventListener("reset", () => {
-      this.dispatchEvent(new Event("cancel"));
-    });
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const title = form.title.value.trim();
-      const description = form.description.value.trim();
-
-      if (title && description) {
-        const note = {
-          id: Date.now(),
-          title,
-          description,
-          createdAt: new Date().toISOString(),
-          archived: false,
-        };
-
-        this.dispatchEvent(new Event("save", { detail: note }));
-      }
-    });
-  }
 }
 
 customElements.define("notes-form", NotesForm);
