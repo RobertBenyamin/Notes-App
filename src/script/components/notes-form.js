@@ -18,6 +18,7 @@ class NotesForm extends HTMLElement {
         left: 50%;
         transform: translate(-50%, -50%);
         width: 50%;
+        height: 75%;
         background: #fffad3;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
@@ -26,7 +27,7 @@ class NotesForm extends HTMLElement {
       }
 
       div {
-        padding: 8px 16px 8px 16px; 
+        padding: 0px 16px 0px 16px; 
       }
 
       input[type="text"],
@@ -90,7 +91,7 @@ class NotesForm extends HTMLElement {
           <form id="notesForm">
             <h2 id="form-title">${this.getAttribute("title")}</h2>
             <input type="text" id="title" name="title" placeholder="Title" required>
-            <textarea id="description" name="description" placeholder="Description" rows="10"></textarea>
+            <textarea id="description" name="description" placeholder="Description" rows="18"></textarea>
             <div class="buttons">
               <button class="cancel" type="reset">Cancel</button>
               <button class="save" type="submit">Save</button>
