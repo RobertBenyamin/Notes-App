@@ -44,6 +44,12 @@ const home = () => {
     saveData();
   };
 
+  const deleteNoteById = (id) => {
+    const index = notes.findIndex((note) => note.id === id);
+    notes.splice(index, 1);
+    saveData();
+  };
+
   const getArchivedNotes = () => {
     return notes
       .filter((note) => note.archived)
@@ -98,7 +104,10 @@ const home = () => {
     const noteItemElements = notes.map((note) => {
       const noteItemElement = document.createElement("note-item");
       noteItemElement.note = note;
-
+      noteItemElement.addEventListener('delete-note', (event) => {
+        const { id } = event.detail;
+        deleteNoteById(id);
+      });
       return noteItemElement;
     });
 
