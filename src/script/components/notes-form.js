@@ -9,6 +9,7 @@ class NotesForm extends HTMLElement {
 
     this.render();
     this.addEventListeners();
+    this.updateTextareaRows();
   }
 
   _updateStyle() {
@@ -19,7 +20,7 @@ class NotesForm extends HTMLElement {
         left: 50%;
         transform: translate(-50%, -50%);
         width: 50%;
-        height: 75%;
+        height: auto;
         background: #fffad3;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
@@ -28,12 +29,12 @@ class NotesForm extends HTMLElement {
       }
 
       div {
-        padding: 0px 16px 0px 16px; 
+        padding: 8px 24px 8px 24px; 
       }
 
       input[type="text"],
       textarea {
-        width: calc(100% - 32px);
+        width: 100%;
         height: auto;
         padding: 8px;
         margin-bottom: 12px;
@@ -41,6 +42,7 @@ class NotesForm extends HTMLElement {
         border-radius: 4px;
         outline: none;
         background: #ffe4b0;
+        box-sizing: border-box;
       }
 
       input[type="text"] {
@@ -54,11 +56,13 @@ class NotesForm extends HTMLElement {
 
       .buttons {
         display: flex;
-        justify-content: flex-end;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 8px;
       }
 
       .buttons button {
+        flex: 1 1 auto;
         padding: 8px 16px;
         border: none;
         border-radius: 4px;
@@ -97,7 +101,7 @@ class NotesForm extends HTMLElement {
           <form id="notesForm">
             <h2 id="form-title">${this.getAttribute("title")}</h2>
             <input type="text" id="title" name="title" placeholder="Title" required>
-            <textarea id="description" name="description" placeholder="Description" rows="18"></textarea>
+            <textarea id="description" name="description" placeholder="Description"></textarea>
             <div class="buttons">
               <button class="cancel" type="reset">Cancel</button>
               <button class="save" type="submit">Save</button>
@@ -128,6 +132,22 @@ class NotesForm extends HTMLElement {
           form.reset();
         }
       });
+
+    this.updateTextareaRows();
+    window.addEventListener("resize", this.updateTextareaRows.bind(this));
+  }
+
+  updateTextareaRows() {
+    const textarea = this._shadowRoot.querySelector("textarea");
+    if (window.innerWidth < 600) {
+      textarea.setAttribute("rows", "8");
+    } else if (window.innerWidth < 900) {
+      textarea.setAttribute("rows", "12");
+    } else if (window.innerWidth < 1920) {
+      textarea.setAttribute("rows", "18");
+    } else {
+      textarea.setAttribute("rows", "32");
+    }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
