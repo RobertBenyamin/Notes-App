@@ -4,11 +4,10 @@ class NoteList extends HTMLElement {
   _shadowRoot = null;
   _style = null;
 
-  _column = 2;
   _gutter = 16;
 
   static get observedAttributes() {
-    return ["column", "gutter"];
+    return ["gutter"];
   }
 
   constructor() {
@@ -28,21 +27,10 @@ class NoteList extends HTMLElement {
       
       .list {
         display: grid;
-        grid-template-columns: ${"1fr ".repeat(this.column)};
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: ${this.gutter}px;
       }
     `;
-  }
-
-  set column(value) {
-    const newValue = Number(value);
-    if (!Utils.isValidInteger(newValue)) return;
-
-    this._column = value;
-  }
-
-  get column() {
-    return this._column;
   }
 
   set gutter(value) {
@@ -74,9 +62,6 @@ class NoteList extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case "column":
-        this.column = newValue;
-        break;
       case "gutter":
         this.gutter = newValue;
         break;
