@@ -11,7 +11,7 @@ body {
 
 /* GLOBAL */
 .container {
-  max-width: 800px;
+  max-width: 75%;
 
   padding-block: 32px;
   padding-inline: 16px;
