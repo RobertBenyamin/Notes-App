@@ -36,7 +36,7 @@ class NotesForm extends HTMLElement {
         width: 100%;
         height: auto;
         padding: 8px;
-        margin-bottom: 12px;
+        
         border: 1px solid #865d13;
         border-radius: 4px;
         outline: none;
@@ -51,6 +51,13 @@ class NotesForm extends HTMLElement {
 
       textarea {
         resize: none;
+      }
+
+      .validation-message {
+        font-size: 0.8em;
+        color: red;
+        margin-top: 0;
+        margin-bottom: 12px;
       }
 
       .buttons {
@@ -99,8 +106,10 @@ class NotesForm extends HTMLElement {
         <div>
           <form id="notesForm">
             <h2 id="form-title">${this.getAttribute("title")}</h2>
-            <input type="text" id="title" name="title" placeholder="Title" required>
-            <textarea id="description" name="description" placeholder="Description" required></textarea>
+            <input type="text" id="title" name="title" placeholder="Title" aria-describedby="titleValidation" required>
+            <p id="titleValidation" class="validation-message"></p>
+            <textarea id="description" name="description" placeholder="Description" aria-describedby="descriptionValidation" required></textarea>
+            <p id="descriptionValidation" class="validation-message"></p>
             <div class="buttons">
               <button class="cancel" type="reset">Cancel</button>
               <button class="save" type="submit">Save</button>

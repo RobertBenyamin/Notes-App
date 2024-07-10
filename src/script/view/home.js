@@ -1,5 +1,6 @@
 import Utils from "../utils.js";
 import Notes from "../data/local/notes.js";
+import formValidation from "./form-validation.js";
 
 const home = () => {
   let notes = [];
@@ -157,6 +158,7 @@ const home = () => {
   });
   document.body.appendChild(showFormButton);
 
+  formValidation();
   if (isStorageExist()) {
     loadDataFromStorage();
   }
