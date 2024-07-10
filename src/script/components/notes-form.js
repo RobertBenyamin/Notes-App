@@ -8,7 +8,6 @@ class NotesForm extends HTMLElement {
     this._style = document.createElement("style");
 
     this.render();
-    this.addEventListeners();
     this.updateTextareaRows();
   }
 
@@ -101,7 +100,7 @@ class NotesForm extends HTMLElement {
           <form id="notesForm">
             <h2 id="form-title">${this.getAttribute("title")}</h2>
             <input type="text" id="title" name="title" placeholder="Title" required>
-            <textarea id="description" name="description" placeholder="Description"></textarea>
+            <textarea id="description" name="description" placeholder="Description" required></textarea>
             <div class="buttons">
               <button class="cancel" type="reset">Cancel</button>
               <button class="save" type="submit">Save</button>
