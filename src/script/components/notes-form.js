@@ -40,7 +40,12 @@ class NotesForm extends HTMLElement {
         border: 1px solid #865d13;
         border-radius: 4px;
         outline: none;
-        background: transparent;
+        background: #ffe4b0;
+      }
+
+      input[type="text"] {
+        font-weight: bold;
+        font-size: 1.2em; 
       }
 
       textarea {
