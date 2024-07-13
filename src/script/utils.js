@@ -30,13 +30,10 @@ class Utils {
       element,
       { opacity: [1, 0], transform: ["scale(1)", "scale(0.9)"] },
       { duration: 0.3 },
-      {
-        onComplete: () => {
-          element.style.display = "none";
-          element.hidden = true;
-        },
-      },
-    );
+    ).finished.then(() => {
+      element.style.display = "none";
+      element.hidden = true;
+    });
   }
 
   static isValidInteger(newValue) {
