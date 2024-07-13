@@ -5,8 +5,21 @@ import NotesApi from "../data/remote/notes-api.js";
 const home = () => {
   const RENDER_EVENT = "RENDER_EVENT";
 
+  const appBar = document.querySelector("app-bar");
+
+  const homeButton = appBar.shadowRoot.querySelector("#homeButton");
+  const noteSection = document.querySelector("#note");
   const noteListContainerElement = document.querySelector("#noteListContainer");
   const noteListElement = noteListContainerElement.querySelector("note-list");
+  const notesForm = document.querySelector("#notesForm");
+
+  const archiveButton = appBar.shadowRoot.querySelector("#archiveButton");
+  const archiveNoteSection = document.querySelector("#archiveNote");
+  const archiveNoteListContainerElement = document.querySelector(
+    "#archiveNoteListContainer",
+  );
+  const archiveNoteListElement =
+    archiveNoteListContainerElement.querySelector("note-list");
 
   const addNote = async (note) => {
     try {
@@ -26,12 +39,22 @@ const home = () => {
   const showNotes = async () => {
     try {
       const result = await NotesApi.getNotes();
-      displayResult(result);
+      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      displayResult(result, noteListElement);
       showNoteList();
     } catch (error) {}
   };
 
-  const displayResult = (notes) => {
+  const showArchivedNotes = async () => {
+    try {
+      const result = await NotesApi.getArchivedNotes();
+      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      displayResult(result, archiveNoteListElement);
+      showArchivedNoteList();
+    } catch (error) {}
+  };
+
+  const displayResult = (notes, listElement) => {
     const noteItemElements = notes.map((note) => {
       const noteItemElement = document.createElement("note-item");
       noteItemElement.note = note;
@@ -42,8 +65,8 @@ const home = () => {
       return noteItemElement;
     });
 
-    Utils.emptyElement(noteListElement);
-    noteListElement.append(...noteItemElements);
+    Utils.emptyElement(listElement);
+    listElement.append(...noteItemElements);
   };
 
   const showNoteList = () => {
@@ -53,11 +76,16 @@ const home = () => {
     Utils.showElement(noteListElement);
   };
 
+  const showArchivedNoteList = () => {
+    Array.from(archiveNoteListContainerElement.children).forEach((element) => {
+      Utils.hideElement(element);
+    });
+    Utils.showElement(archiveNoteListElement);
+  }
+
   document.addEventListener(RENDER_EVENT, () => {
     showNotes();
   });
-
-  const notesForm = document.querySelector("#notesForm");
 
   notesForm.addEventListener("cancel", () => {
     Utils.hideElement(notesForm);
@@ -80,7 +108,26 @@ const home = () => {
   });
   document.body.appendChild(showFormButton);
 
+  homeButton.addEventListener("click", () => {
+    Utils.showElement(noteSection);
+    Utils.showElement(showFormButton);
+    Utils.hideElement(archiveNoteSection);
+    showNotes();
+  });
+
+  archiveButton.addEventListener("click", async () => {
+    try {
+      Utils.showElement(archiveNoteSection);
+      Utils.hideElement(showFormButton);
+      Utils.hideElement(noteSection);
+      showArchivedNotes();
+    } catch (error) {}
+  });
+
+  // Initial state
   formValidation();
+  showNotes();
+  Utils.hideElement(archiveNoteSection);
 };
 
 export default home;

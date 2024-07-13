@@ -21,13 +21,32 @@ class AppBar extends HTMLElement {
         }
   
         div {
-          padding: 24px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 20px;
         }
   
         .brand-name {
           margin: 0;
-        
           font-size: 1.7em;
+        }
+  
+        button {
+          padding: 10px 20px;
+          background-color: transparent;
+          border: none;
+          border-radius: 4px;
+          color: black;
+          cursor: pointer;
+          font-size: 1em;
+          font-weight: bold;
+          transition: background-color 0.3s;
+        }
+  
+        button:hover {
+          background-color: transparent;
+          color: #82590b;
         }
       `;
   }
@@ -47,7 +66,8 @@ class AppBar extends HTMLElement {
     this._shadowRoot.appendChild(this._style);
     this._shadowRoot.innerHTML += `      
         <div>
-          <h1 class="brand-name">Notes App</h1>
+          <button id="homeButton" type="button" class="brand-name">Notes App</button>
+          <button id="archiveButton" type="button">Archive</button>
         </div>
       `;
   }
