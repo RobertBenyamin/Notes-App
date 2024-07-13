@@ -20,7 +20,7 @@ class Utils {
     animate(
       element,
       { opacity: [0, 1], transform: ["scale(0.9)", "scale(1)"] },
-      { duration: 0.3 }
+      { duration: 0.3 },
     );
   }
 
@@ -29,10 +29,11 @@ class Utils {
       element,
       { opacity: [1, 0], transform: ["scale(1)", "scale(0.9)"] },
       { duration: 0.3 },
-      { onComplete: () => {
+      {
+        onComplete: () => {
           element.style.display = "none";
-        }
-      }
+        },
+      },
     );
   }
 
