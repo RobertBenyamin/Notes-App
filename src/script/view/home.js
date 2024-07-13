@@ -32,8 +32,10 @@ const home = () => {
   };
 
   const deleteNoteById = async (id) => {
-    const result = await NotesApi.deleteNoteById(id);
-    document.dispatchEvent(new Event(RENDER_EVENT));
+    try {
+      const result = await NotesApi.deleteNoteById(id);
+      document.dispatchEvent(new Event(RENDER_EVENT));
+    } catch (error) {}
   };
 
   const showNotes = async () => {
@@ -54,6 +56,18 @@ const home = () => {
     } catch (error) {}
   };
 
+  const archiveNoteById = async (id) => {
+    try {
+      const result = await NotesApi.getNoteById(id);
+      if (result.archived) {
+        await NotesApi.unarchiveNote(id);
+      } else {
+        await NotesApi.archiveNote(id);
+      }
+      document.dispatchEvent(new Event(RENDER_EVENT));
+    } catch (error) {}
+  };
+
   const displayResult = (notes, listElement) => {
     const noteItemElements = notes.map((note) => {
       const noteItemElement = document.createElement("note-item");
@@ -61,6 +75,10 @@ const home = () => {
       noteItemElement.addEventListener("delete-note", (event) => {
         const { id } = event.detail;
         deleteNoteById(id);
+      });
+      noteItemElement.addEventListener("archive-note", (event) => {
+        const { id } = event.detail;
+        archiveNoteById(id);
       });
       return noteItemElement;
     });
@@ -81,10 +99,11 @@ const home = () => {
       Utils.hideElement(element);
     });
     Utils.showElement(archiveNoteListElement);
-  }
+  };
 
   document.addEventListener(RENDER_EVENT, () => {
     showNotes();
+    showArchivedNotes();
   });
 
   notesForm.addEventListener("cancel", () => {

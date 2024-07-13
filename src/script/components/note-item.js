@@ -118,6 +118,15 @@ class NoteItem extends HTMLElement {
         }),
       );
     });
+    this.shadowRoot.querySelector("#archive").addEventListener("click", () => {
+      this.dispatchEvent(
+        new CustomEvent("archive-note", {
+          detail: {
+            id: this._note.id,
+          },
+        }),
+      );
+    });
   }
 }
 
