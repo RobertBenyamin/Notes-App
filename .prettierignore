@@ -1,0 +1,25 @@
+# Ignore build/output directories
+dist/
+build/
+
+# Ignore node_modules directory (if using npm or yarn)
+node_modules/
+
+# Ignore automatically generated files
+*.min.js
+*.min.css
+
+# Ignore vendor directory
+vendor/
+
+# Ignore configuration files
+*.config.js
+
+# Ignore all files in the .vscode directory
+.vscode/*
+
+# Ignore all files in the .idea directory
+.idea/*
+
+# Ignore all markdown files
+*.md
