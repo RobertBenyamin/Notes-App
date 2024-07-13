@@ -1,3 +1,5 @@
+import { animate } from "motion";
+
 class Utils {
   static emptyElement(element) {
     element.innerHTML = "";
@@ -11,6 +13,27 @@ class Utils {
   static hideElement(element) {
     element.style.display = "none";
     element.hidden = true;
+  }
+
+  static showElementWithAnimation(element) {
+    element.style.display = "block";
+    animate(
+      element,
+      { opacity: [0, 1], transform: ["scale(0.9)", "scale(1)"] },
+      { duration: 0.3 }
+    );
+  }
+
+  static hideElementWithAnimation(element) {
+    animate(
+      element,
+      { opacity: [1, 0], transform: ["scale(1)", "scale(0.9)"] },
+      { duration: 0.3 },
+      { onComplete: () => {
+          element.style.display = "none";
+        }
+      }
+    );
   }
 
   static isValidInteger(newValue) {

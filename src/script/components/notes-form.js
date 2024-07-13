@@ -15,8 +15,8 @@ class NotesForm extends HTMLElement {
     this._style.textContent = `
       :host {
         position: fixed;
-        top: 50%;
-        left: 50%;
+        top: 15%;
+        left: 25%;
         transform: translate(-50%, -50%);
         width: 50%;
         height: auto;

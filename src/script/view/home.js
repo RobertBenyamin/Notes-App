@@ -107,7 +107,7 @@ const home = () => {
   });
 
   notesForm.addEventListener("cancel", () => {
-    Utils.hideElement(notesForm);
+    Utils.hideElementWithAnimation(notesForm);
   });
 
   notesForm.addEventListener("save", (event) => {
@@ -116,14 +116,14 @@ const home = () => {
       title,
       description,
     });
-    Utils.hideElement(notesForm);
+    Utils.hideElementWithAnimation(notesForm);
   });
 
   const showFormButton = document.createElement("button");
   showFormButton.textContent = "Add Note";
   showFormButton.className = "add-note-button";
   showFormButton.addEventListener("click", () => {
-    Utils.showElement(notesForm);
+    Utils.showElementWithAnimation(notesForm);
   });
   document.body.appendChild(showFormButton);
 
