@@ -9,12 +9,15 @@ const home = () => {
 
   const homeButton = appBar.shadowRoot.querySelector("#homeButton");
   const noteSection = document.querySelector("#note");
+  const noteLoadingElement = noteSection.querySelector("#loadingIndicator");
   const noteListContainerElement = document.querySelector("#noteListContainer");
   const noteListElement = noteListContainerElement.querySelector("note-list");
   const notesForm = document.querySelector("#notesForm");
 
   const archiveButton = appBar.shadowRoot.querySelector("#archiveButton");
   const archiveNoteSection = document.querySelector("#archiveNote");
+  const archiveNoteLoadingElement =
+    archiveNoteSection.querySelector("#loadingIndicator");
   const archiveNoteListContainerElement = document.querySelector(
     "#archiveNoteListContainer",
   );
@@ -38,7 +41,15 @@ const home = () => {
     } catch (error) {}
   };
 
+  const showNoteLoading = () => {
+    Array.from(noteListContainerElement.children).forEach((element) => {
+      Utils.hideElement(element);
+    });
+    Utils.showElement(noteLoadingElement);
+  };
+
   const showNotes = async () => {
+    showNoteLoading();
     try {
       const result = await NotesApi.getNotes();
       result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
