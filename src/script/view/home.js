@@ -1,104 +1,34 @@
 import Utils from "../utils.js";
-import Notes from "../data/local/notes.js";
 import formValidation from "./form-validation.js";
+import NotesApi from "../data/remote/notes-api.js";
 
 const home = () => {
-  let notes = [];
   const RENDER_EVENT = "RENDER_EVENT";
-  const STORAGE_KEY = "NOTE_APPS";
 
   const noteListContainerElement = document.querySelector("#noteListContainer");
   const noteListElement = noteListContainerElement.querySelector("note-list");
 
-  const isStorageExist = () => {
-    if (typeof Storage === undefined) {
-      alert("Browser kamu tidak mendukung local storage");
-      return false;
-    }
-    return true;
-  };
-
-  const saveData = () => {
-    if (isStorageExist()) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  const addNote = async (note) => {
+    try {
+      const result = await NotesApi.addNote({
+        title: note.title,
+        body: note.description,
+      });
       document.dispatchEvent(new Event(RENDER_EVENT));
-    }
+    } catch (error) {}
   };
 
-  const loadDataFromStorage = () => {
-    const serializedData = localStorage.getItem(STORAGE_KEY);
-    let data = JSON.parse(serializedData);
-
-    if (data !== null) {
-      notes = data;
-    } else {
-      notes = Notes.getNotesAll();
-      saveData();
-    }
-
+  const deleteNoteById = async (id) => {
+    const result = await NotesApi.deleteNoteById(id);
     document.dispatchEvent(new Event(RENDER_EVENT));
   };
 
-  const addNote = (note) => {
-    notes.push(note);
-    saveData();
-  };
-
-  const deleteNoteById = (id) => {
-    const index = notes.findIndex((note) => note.id === id);
-    notes.splice(index, 1);
-    saveData();
-  };
-
-  const getArchivedNotes = () => {
-    return notes
-      .filter((note) => note.archived)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  };
-
-  const getActiveNotes = () => {
-    return notes
-      .filter((note) => !note.archived)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  };
-
-  const searchActiveNotes = (query) => {
-    const notesByTitle = notes.filter(
-      (note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()) &&
-        !note.archived,
-    );
-    const notesByBody = notes.filter(
-      (note) =>
-        note.description.toLowerCase().includes(query.toLowerCase()) &&
-        !note.archived,
-    );
-    return [...new Set([...notesByTitle, ...notesByBody])];
-  };
-
-  const searchArchivedNotes = (query) => {
-    const notesByTitle = notes.filter(
-      (note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()) && note.archived,
-    );
-    const notesByBody = notes.filter(
-      (note) =>
-        note.description.toLowerCase().includes(query.toLowerCase()) &&
-        note.archived,
-    );
-    return [...new Set([...notesByTitle, ...notesByBody])];
-  };
-
-  const showNotes = (query) => {
-    if (query === "") {
-      const result = getActiveNotes();
+  const showNotes = async () => {
+    try {
+      const result = await NotesApi.getNotes();
       displayResult(result);
-    } else {
-      const result = searchActiveNotes(query);
-      displayResult(result);
-    }
-
-    showNoteList();
+      showNoteList();
+    } catch (error) {}
   };
 
   const displayResult = (notes) => {
@@ -124,7 +54,7 @@ const home = () => {
   };
 
   document.addEventListener(RENDER_EVENT, () => {
-    showNotes("");
+    showNotes();
   });
 
   const notesForm = document.querySelector("#notesForm");
@@ -133,29 +63,11 @@ const home = () => {
     Utils.hideElement(notesForm);
   });
 
-  function generateId() {
-    const characters =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let result = "notes-";
-    for (let i = 0; i < 12; i++) {
-      result += characters.charAt(
-        Math.floor(Math.random() * characters.length),
-      );
-    }
-    return result;
-  }
-
   notesForm.addEventListener("save", (event) => {
     const { title, description } = event.detail;
-    const id = generateId();
-    const createdAt = new Date().toISOString();
-    const archived = false;
     addNote({
-      id,
       title,
-      body: description,
-      createdAt,
-      archived,
+      description,
     });
     Utils.hideElement(notesForm);
   });
@@ -169,9 +81,6 @@ const home = () => {
   document.body.appendChild(showFormButton);
 
   formValidation();
-  if (isStorageExist()) {
-    loadDataFromStorage();
-  }
 };
 
 export default home;
