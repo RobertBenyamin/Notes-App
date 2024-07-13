@@ -24,6 +24,7 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "motion": "^10.18.0"
+    "motion": "^10.18.0",
+    "sweetalert2": "^11.12.2"
   }
 }
