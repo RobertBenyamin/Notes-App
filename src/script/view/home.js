@@ -65,12 +65,13 @@ const home = () => {
   const searchActiveNotes = (query) => {
     const notesByTitle = notes.filter(
       (note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()) && !note.archived
+        note.title.toLowerCase().includes(query.toLowerCase()) &&
+        !note.archived,
     );
     const notesByBody = notes.filter(
       (note) =>
         note.description.toLowerCase().includes(query.toLowerCase()) &&
-        !note.archived
+        !note.archived,
     );
     return [...new Set([...notesByTitle, ...notesByBody])];
   };
@@ -78,12 +79,12 @@ const home = () => {
   const searchArchivedNotes = (query) => {
     const notesByTitle = notes.filter(
       (note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()) && note.archived
+        note.title.toLowerCase().includes(query.toLowerCase()) && note.archived,
     );
     const notesByBody = notes.filter(
       (note) =>
         note.description.toLowerCase().includes(query.toLowerCase()) &&
-        note.archived
+        note.archived,
     );
     return [...new Set([...notesByTitle, ...notesByBody])];
   };
@@ -104,7 +105,7 @@ const home = () => {
     const noteItemElements = notes.map((note) => {
       const noteItemElement = document.createElement("note-item");
       noteItemElement.note = note;
-      noteItemElement.addEventListener('delete-note', (event) => {
+      noteItemElement.addEventListener("delete-note", (event) => {
         const { id } = event.detail;
         deleteNoteById(id);
       });
@@ -138,7 +139,7 @@ const home = () => {
     let result = "notes-";
     for (let i = 0; i < 12; i++) {
       result += characters.charAt(
-        Math.floor(Math.random() * characters.length)
+        Math.floor(Math.random() * characters.length),
       );
     }
     return result;

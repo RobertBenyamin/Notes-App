@@ -1,7 +1,7 @@
-import './app-bar.js';
+import "./app-bar.js";
 
-import './note-list.js';
-import './note-item.js';
-import './notes-form.js';
+import "./note-list.js";
+import "./note-item.js";
+import "./notes-form.js";
 
-import './section-with-title.js';
+import "./section-with-title.js";

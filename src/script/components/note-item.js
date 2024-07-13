@@ -109,15 +109,13 @@ class NoteItem extends HTMLElement {
           </div>
         </div>
       `;
-    this.shadowRoot
-    .querySelector("#delete")
-    .addEventListener("click", () => {
+    this.shadowRoot.querySelector("#delete").addEventListener("click", () => {
       this.dispatchEvent(
         new CustomEvent("delete-note", {
           detail: {
             id: this._note.id,
           },
-        })
+        }),
       );
     });
   }

@@ -47,11 +47,11 @@ const formValidation = () => {
 
   descriptionFormInput.addEventListener(
     "change",
-    customValidationDescriptionHandler
+    customValidationDescriptionHandler,
   );
   descriptionFormInput.addEventListener(
     "invalid",
-    customValidationDescriptionHandler
+    customValidationDescriptionHandler,
   );
   descriptionFormInput.addEventListener("blur", blurEventHandler);
 };

@@ -135,7 +135,7 @@ class NotesForm extends HTMLElement {
 
         if (title && description) {
           this.dispatchEvent(
-            new CustomEvent("save", { detail: { title, description } })
+            new CustomEvent("save", { detail: { title, description } }),
           );
           form.reset();
         }

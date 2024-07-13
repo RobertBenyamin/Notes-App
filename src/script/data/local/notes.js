@@ -109,7 +109,7 @@ const notesData = [
 class Notes {
   static getNotesAll() {
     return notesData.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
   }
 
@@ -151,11 +151,12 @@ class Notes {
   static searchActiveNotes(query) {
     notesByTitle = notesData.filter(
       (note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()) && !note.archived
+        note.title.toLowerCase().includes(query.toLowerCase()) &&
+        !note.archived,
     );
     notesByBody = notesData.filter(
       (note) =>
-        note.body.toLowerCase().includes(query.toLowerCase()) && !note.archived
+        note.body.toLowerCase().includes(query.toLowerCase()) && !note.archived,
     );
     return [...notesByTitle, ...notesByBody];
   }
@@ -163,11 +164,11 @@ class Notes {
   static searchArchivedNotes(query) {
     notesByTitle = notesData.filter(
       (note) =>
-        note.title.toLowerCase().includes(query.toLowerCase()) && note.archived
+        note.title.toLowerCase().includes(query.toLowerCase()) && note.archived,
     );
     notesByBody = notesData.filter(
       (note) =>
-        note.body.toLowerCase().includes(query.toLowerCase()) && note.archived
+        note.body.toLowerCase().includes(query.toLowerCase()) && note.archived,
     );
     return [...notesByTitle, ...notesByBody];
   }
