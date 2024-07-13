@@ -1,6 +1,7 @@
 import Utils from "../utils.js";
 import formValidation from "./form-validation.js";
 import NotesApi from "../data/remote/notes-api.js";
+import Swal from "sweetalert2";
 
 const home = () => {
   const RENDER_EVENT = "RENDER_EVENT";
@@ -30,15 +31,35 @@ const home = () => {
         title: note.title,
         body: note.description,
       });
+      Swal.fire({
+        title: "Note created!",
+        icon: "success",
+      });
       document.dispatchEvent(new Event(RENDER_EVENT));
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+    }
   };
 
   const deleteNoteById = async (id) => {
     try {
       const result = await NotesApi.deleteNoteById(id);
+      Swal.fire({
+        title: "Note deleted!",
+        icon: "success",
+      });
       document.dispatchEvent(new Event(RENDER_EVENT));
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+    }
   };
 
   const showNoteLoading = () => {
@@ -48,6 +69,13 @@ const home = () => {
     Utils.showElement(noteLoadingElement);
   };
 
+  const showArchiveNoteLoading = () => {
+    Array.from(archiveNoteListContainerElement.children).forEach((element) => {
+      Utils.hideElement(element);
+    });
+    Utils.showElement(archiveNoteLoadingElement);
+  };
+
   const showNotes = async () => {
     showNoteLoading();
     try {
@@ -55,16 +83,31 @@ const home = () => {
       result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       displayResult(result, noteListElement);
       showNoteList();
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+      noteLoadingElement.innerHTML = "Failed to load notes!";
+    }
   };
 
   const showArchivedNotes = async () => {
+    showArchiveNoteLoading();
     try {
       const result = await NotesApi.getArchivedNotes();
       result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       displayResult(result, archiveNoteListElement);
       showArchivedNoteList();
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+      archiveNoteLoadingElement.innerHTML = "Failed to load archived notes!";
+    }
   };
 
   const archiveNoteById = async (id) => {
@@ -72,11 +115,25 @@ const home = () => {
       const result = await NotesApi.getNoteById(id);
       if (result.archived) {
         await NotesApi.unarchiveNote(id);
+        Swal.fire({
+          title: "Note unarchived!",
+          icon: "success",
+        });
       } else {
         await NotesApi.archiveNote(id);
+        Swal.fire({
+          title: "Note archived!",
+          icon: "success",
+        });
       }
       document.dispatchEvent(new Event(RENDER_EVENT));
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+    }
   };
 
   const displayResult = (notes, listElement) => {
@@ -151,7 +208,13 @@ const home = () => {
       Utils.hideElement(showFormButton);
       Utils.hideElement(noteSection);
       showArchivedNotes();
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message,
+      });
+    }
   });
 
   // Initial state
