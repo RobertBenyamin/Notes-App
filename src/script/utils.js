@@ -17,6 +17,7 @@ class Utils {
 
   static showElementWithAnimation(element) {
     element.style.display = "block";
+    element.hidden = false;
     animate(
       element,
       { opacity: [0, 1], transform: ["scale(0.9)", "scale(1)"] },
@@ -32,6 +33,7 @@ class Utils {
       {
         onComplete: () => {
           element.style.display = "none";
+          element.hidden = true;
         },
       },
     );
